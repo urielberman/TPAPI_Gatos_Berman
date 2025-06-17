@@ -1,19 +1,25 @@
 import axios from "axios";
 import './App.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
+  const url="https://api.thecatapi.com/v1/images/search"
   const [catImage, setCatImage] = useState(null);
+  
+  
+  useEffect(() => {
+    axios.get(url).then((response) => {
+      setCatImage(response.data[0].url); 
+      });
+  }, []);
 
   const obtenerGatoAleatorio = () => {
-    axios.get("https://api.thecatapi.com/v1/images/search")
+    axios.get(url)
       .then((response) => {
         setCatImage(response.data[0].url);
       })
-      .catch((error) => {
-        console.error("Error al obtener la imagen de gato:", error);
-      });
   };
+  
 
   return (
     <div className="container">
